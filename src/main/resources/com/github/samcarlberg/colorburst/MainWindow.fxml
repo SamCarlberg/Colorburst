@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.github.samcarlberg.colorburst.WrappedImageView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.github.samcarlberg.colorburst.MainWindowController"
+      fx:id="root">
+    <StackPane VBox.vgrow="ALWAYS" prefWidth="1280" prefHeight="720">
+        <WrappedImageView fx:id="imageView" preserveRatio="true"/>
+    </StackPane>
+    <HBox spacing="4">
+        <HBox>
+            <Button text="Start" onAction="#start"/>
+            <Button text="Save image" onAction="#save"/>
+        </HBox>
+        <HBox>
+            <TextField fx:id="width" promptText="Image width" text="1280"/>
+            <TextField fx:id="height" promptText="Image height" text="720"/>
+        </HBox>
+        <HBox>
+            <Label text="Seed color"/>
+            <ColorPicker fx:id="colorPicker">
+                <value>
+                    <Color red="1" green="1" blue="0"/> <!-- Yellow -->
+                </value>
+            </ColorPicker>
+            <Label text="Seed location" labelFor="${seedLocationChooser}"/>
+            <ComboBox fx:id="seedLocationChooser"/>
+        </HBox>
+        <HBox spacing="2">
+            <Label text="Progress"/>
+            <Label fx:id="progressLabel"/>
+            <ProgressBar fx:id="progressBar" progress="0"/>
+        </HBox>
+    </HBox>
+</VBox>
