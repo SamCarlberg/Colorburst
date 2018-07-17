@@ -24,7 +24,7 @@ Colorburst randomly selects which pixels to work on, so no two images are alike 
 ## Requirements
 
 Colorburst is built on Java, and requires Java 8 or higher to be installed. A runnable JAR can be downloaded from the
-releases page, or you can run and build
+releases page, or you can run and build it manually.
 
 ## Building and Running
 
@@ -37,5 +37,13 @@ Building Colorburst requires JDK 8 or higher to be installed.
 
 # Time requirements
 
-Colorburst renders images at about 225,000 pixels per minute on an i7-7700k. Your times will vary depending on your CPU
-and background CPU usage.
+Colorburst renders images at about 400,000 to 700,000 pixels per minute on an i7-7700k. Your times will vary depending
+on your CPU, background CPU usage, and image resolution.
+
+**Common render times**
+
+| Resolution | Time |
+|---|---|
+| 1280x720 | 2 minutes |
+| 1920x1080 | 4 minutes |
+| 2560x1440 | 10 minutes |

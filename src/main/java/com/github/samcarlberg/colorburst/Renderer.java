@@ -1,8 +1,7 @@
 package com.github.samcarlberg.colorburst;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javafx.application.Platform;
 
@@ -15,7 +14,7 @@ final class Renderer {
   private boolean isRunning = false;
   private long startTime;
 
-  private Set<Anchor> anchors = new HashSet<>();
+  private final List<Anchor> anchors = new ArrayList<>();
 
   private int numPixelsWritten = 0;
 
@@ -26,17 +25,11 @@ final class Renderer {
 
   public void doRenderPass() {
     if (!anchors.isEmpty() && isRunning) {
-      Anchor anchor = null;
-      boolean canUseAnchor = false;
-
-      do {
-        if (anchors.isEmpty()) {
-          stop();
-          return;
-        }
-        anchor = Util.pickRandom(anchors);
-        canUseAnchor = anchor.hasAvailableNeighbors();
-      } while (!canUseAnchor);
+      Anchor anchor = getNextAnchor();
+      if (anchor == null) {
+        stop();
+        return;
+      }
 
       List<Pos> availableNeighbors = anchor.getAvailableNeighbors();
       Pos pos = Util.pickRandom(availableNeighbors);
@@ -65,6 +58,21 @@ final class Renderer {
       colors.updateProgress(++numPixelsWritten);
       stop();
     }
+  }
+
+  private Anchor getNextAnchor() {
+    Anchor anchor = null;
+    boolean canUseAnchor = false;
+
+    do {
+      if (anchors.isEmpty()) {
+        stop();
+        return null;
+      }
+      anchor = Util.pickRandom(anchors);
+      canUseAnchor = anchor.hasAvailableNeighbors();
+    } while (!canUseAnchor);
+    return anchor;
   }
 
   /**
