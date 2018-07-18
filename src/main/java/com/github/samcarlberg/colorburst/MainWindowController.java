@@ -42,6 +42,8 @@ public final class MainWindowController {
 
   private Colors colors;
 
+  private File lastSaveDir;
+
   @FXML
   private void initialize() {
     seedLocationChooser.getItems().setAll(SeedLocation.values());
@@ -85,10 +87,12 @@ public final class MainWindowController {
     fileChooser.setTitle("Save Colorburst");
     fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG Image", "*.png"));
     fileChooser.setInitialFileName("colorburst-" + (int) colors.getImage().getWidth() + "x" + (int) colors.getImage().getHeight() + ".png");
+    fileChooser.setInitialDirectory(lastSaveDir);
     File file = fileChooser.showSaveDialog(root.getScene().getWindow());
     if (file != null) {
       BufferedImage bufferedImage = SwingFXUtils.fromFXImage(colors.getImage(), null);
       ImageIO.write(bufferedImage, "png", file);
+      lastSaveDir = file.getParentFile();
     }
   }
 
