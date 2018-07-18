@@ -49,3 +49,4 @@ on your CPU, background CPU usage, and image resolution.
 | 1280x720 | 2 minutes |
 | 1920x1080 | 4 minutes |
 | 2560x1440 | 10 minutes |
+| 3840x2160 | 18 minutes |
