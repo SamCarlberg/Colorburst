@@ -3,6 +3,7 @@ package com.github.samcarlberg.colorburst;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.function.UnaryOperator;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
@@ -13,6 +14,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
@@ -44,6 +46,15 @@ public final class MainWindowController {
   private void initialize() {
     seedLocationChooser.getItems().setAll(SeedLocation.values());
     seedLocationChooser.getSelectionModel().select(SeedLocation.BOTTOM_CENTER);
+    UnaryOperator<TextFormatter.Change> onlyIntegerText = c -> {
+      if (c.getControlNewText().matches("^\\d+$")) {
+        return c;
+      } else {
+        return null;
+      }
+    };
+    width.setTextFormatter(new TextFormatter<>(onlyIntegerText));
+    height.setTextFormatter(new TextFormatter<>(onlyIntegerText));
   }
 
   @FXML
