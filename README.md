@@ -2,6 +2,8 @@
 
 ![colorburst-header](./images/header.png)
 
+[Download the latest release here](https://github.com/samcarlberg/colorburst/releases/latest)
+
 A desktop Java app that generates bursts of color. Each pixel in the rendered images has a unique color value; no color
 appears more than once in the entire image. Colorburst uses 24-bit color (8 bits per channel of red, green, and blue);
 as a result, Colorburst is limited to images of 16,777,216 pixels or less. Typical resolutions of 1920x1080, 2560x1440,
