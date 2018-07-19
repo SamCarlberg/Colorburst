@@ -22,7 +22,7 @@
       alignment="CENTER"
       fx:id="root">
     <padding>
-        <Insets topRightBottomLeft="8"/>
+        <Insets bottom="8"/>
     </padding>
     <MenuBar managed="false" visible="false">
         <Menu>
