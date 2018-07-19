@@ -11,11 +11,14 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 
@@ -36,20 +39,24 @@ public final class MainWindowController {
   @FXML
   private ColorPicker colorPicker;
   @FXML
+  private Pane progressInfo;
+  @FXML
   private Label progressLabel;
+  @FXML
+  private Label timeLabel;
   @FXML
   private ProgressBar progressBar;
 
   private Colors colors;
-
   private File lastSaveDir;
+  private Timer timer;
 
   @FXML
   private void initialize() {
     seedLocationChooser.getItems().setAll(SeedLocation.values());
     seedLocationChooser.getSelectionModel().select(SeedLocation.BOTTOM_CENTER);
     UnaryOperator<TextFormatter.Change> onlyIntegerText = c -> {
-      if (c.getControlNewText().matches("^\\d+$")) {
+      if (c.getControlNewText().matches("^|\\d+$")) {
         return c;
       } else {
         return null;
@@ -63,6 +70,7 @@ public final class MainWindowController {
   private void start() {
     if (colors != null) {
       colors.stop();
+      timer.stop();
     }
     int width = Integer.parseInt(this.width.getText());
     int height = Integer.parseInt(this.height.getText());
@@ -72,9 +80,19 @@ public final class MainWindowController {
     imageView.setImage(colors.getImage());
     progressBar.progressProperty().bind(colors.progressProperty());
     StringBinding percentProgress = Bindings.createStringBinding(
-        () -> String.format("%.2f%%", colors.getProgress() * 100),
+        () -> {
+          double progress = colors.getProgress();
+          if (progress >= 1) {
+            return "Progress: Complete";
+          } else {
+            return String.format("Progress: %.2f%%", progress * 100);
+          }
+        },
         colors.progressProperty());
     progressLabel.textProperty().bind(percentProgress);
+    timer = Timer.createStarted();
+    timeLabel.textProperty().bind(Bindings.createStringBinding(() -> "Elapsed time: " + Util.nanosToTime(timer.getNanos()), colors.progressProperty()));
+    progressInfo.setManaged(true);
     colors.start();
   }
 
@@ -94,6 +112,23 @@ public final class MainWindowController {
       ImageIO.write(bufferedImage, "png", file);
       lastSaveDir = file.getParentFile();
     }
+  }
+
+  @FXML
+  private void showContextMenu(ContextMenuEvent event) {
+    if (colors == null) {
+      return;
+    }
+    MenuItem save = new MenuItem("Save image");
+    save.setOnAction(__ -> {
+      try {
+        save();
+      } catch (IOException ex) {
+        ex.printStackTrace();
+      }
+    });
+    ContextMenu contextMenu = new ContextMenu(save);
+    contextMenu.show(root.getScene().getWindow(), event.getScreenX(), event.getScreenY());
   }
 
 }

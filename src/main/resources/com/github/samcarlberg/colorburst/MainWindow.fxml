@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.github.samcarlberg.colorburst.WrappedImageView?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
@@ -14,20 +18,34 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.github.samcarlberg.colorburst.MainWindowController"
+      minWidth="900" minHeight="600"
       fx:id="root">
-    <StackPane VBox.vgrow="ALWAYS" prefWidth="1280" prefHeight="720">
+    <MenuBar managed="false" visible="false">
+        <Menu>
+            <MenuItem text="Save" onAction="#save" accelerator="SHORTCUT+S"/>
+        </Menu>
+    </MenuBar>
+    <StackPane VBox.vgrow="ALWAYS" prefWidth="1280" prefHeight="720" style="-fx-background-color: #0004" onContextMenuRequested="#showContextMenu">
         <WrappedImageView fx:id="imageView" preserveRatio="true"/>
     </StackPane>
-    <HBox spacing="4">
-        <HBox>
-            <Button text="Start" onAction="#start"/>
-            <Button text="Save image" onAction="#save"/>
+    <StackPane maxWidth="Infinity" fx:id="progressInfo" managed="false" visible="${progressInfo.managed}">
+        <ProgressBar fx:id="progressBar" progress="0" maxWidth="Infinity"/>
+        <HBox alignment="CENTER" spacing="16">
+            <Label fx:id="progressLabel"/>
+            <Label fx:id="timeLabel"/>
         </HBox>
-        <HBox>
+    </StackPane>
+    <HBox spacing="12" alignment="CENTER">
+        <padding>
+            <Insets topRightBottomLeft="4"/>
+        </padding>
+        <HBox spacing="2" alignment="CENTER">
+            <Label text="Size:"/>
             <TextField fx:id="width" promptText="Image width" text="1280"/>
+            <Label text="by"/>
             <TextField fx:id="height" promptText="Image height" text="720"/>
         </HBox>
-        <HBox>
+        <HBox alignment="CENTER" spacing="4">
             <Label text="Seed color"/>
             <ColorPicker fx:id="colorPicker">
                 <value>
@@ -37,10 +55,9 @@
             <Label text="Seed location" labelFor="${seedLocationChooser}"/>
             <ComboBox fx:id="seedLocationChooser"/>
         </HBox>
-        <HBox spacing="2">
-            <Label text="Progress"/>
-            <Label fx:id="progressLabel"/>
-            <ProgressBar fx:id="progressBar" progress="0"/>
+        <HBox spacing="32" alignment="CENTER">
+            <Button text="Start" onAction="#start"/>
+            <!--<Button text="Save image" onAction="#save"/>-->
         </HBox>
     </HBox>
 </VBox>
