@@ -9,6 +9,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
@@ -46,6 +47,8 @@ public final class MainWindowController {
   private Label timeLabel;
   @FXML
   private ProgressBar progressBar;
+  @FXML
+  private Button saveButton;
 
   private Colors colors;
   private File lastSaveDir;
@@ -93,6 +96,7 @@ public final class MainWindowController {
     timer = Timer.createStarted();
     timeLabel.textProperty().bind(Bindings.createStringBinding(() -> "Elapsed time: " + Util.nanosToTime(timer.getNanos()), colors.progressProperty()));
     progressInfo.setManaged(true);
+    saveButton.setManaged(true);
     colors.start();
   }
 

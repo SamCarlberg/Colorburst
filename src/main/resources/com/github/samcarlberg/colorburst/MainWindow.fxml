@@ -19,7 +19,11 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.github.samcarlberg.colorburst.MainWindowController"
       minWidth="900" minHeight="600"
+      alignment="CENTER"
       fx:id="root">
+    <padding>
+        <Insets topRightBottomLeft="8"/>
+    </padding>
     <MenuBar managed="false" visible="false">
         <Menu>
             <MenuItem text="Save" onAction="#save" accelerator="SHORTCUT+S"/>
@@ -55,9 +59,9 @@
             <Label text="Seed location" labelFor="${seedLocationChooser}"/>
             <ComboBox fx:id="seedLocationChooser"/>
         </HBox>
-        <HBox spacing="32" alignment="CENTER">
-            <Button text="Start" onAction="#start"/>
-            <!--<Button text="Save image" onAction="#save"/>-->
-        </HBox>
+    </HBox>
+    <HBox spacing="8" alignment="CENTER">
+        <Button text="Start" onAction="#start" prefWidth="128"/>
+        <Button text="Save" onAction="#save" fx:id="saveButton" managed="false" visible="${saveButton.managed}" prefWidth="128"/>
     </HBox>
 </VBox>
